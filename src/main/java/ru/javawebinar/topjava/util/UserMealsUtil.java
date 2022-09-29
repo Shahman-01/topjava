@@ -44,9 +44,7 @@ public class UserMealsUtil {
 
 	public static List<UserMealWithExcess> filteredByStreams(List<UserMeal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
 		Map<LocalDate, Integer> oneDayCalories = meals.stream()
-				.collect(Collectors.groupingBy(m -> {
-					return m.getDateTime().toLocalDate();
-				}, Collectors.summingInt(UserMeal::getCalories)));
+				.collect(Collectors.groupingBy(m -> m.getDateTime().toLocalDate(), Collectors.summingInt(UserMeal::getCalories)));
 
 		return meals.stream()
 				.filter(meal -> (TimeUtil.isBetweenHalfOpen(meal.getDateTime().toLocalTime(), startTime, endTime)))
